@@ -1,5 +1,5 @@
 const postList = document.getElementById("post-list");
-const fallbackPosts = [
+const starterPosts = [
   {
     title: "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
     body:
@@ -18,31 +18,21 @@ function displayPosts(posts) {
     h1.textContent = post.title;
     p.textContent = post.body;
 
-    li.append(h1, p);
+    li.appendChild(h1);
+    li.appendChild(p);
     postList.appendChild(li);
   });
 }
 
 async function fetchPosts() {
-  const fallbackTimer = setTimeout(() => {
-    if (!postList.children.length) {
-      displayPosts(fallbackPosts);
-    }
-  }, 150);
-
   try {
     const response = await fetch("https://jsonplaceholder.typicode.com/posts");
     const posts = await response.json();
-
-    clearTimeout(fallbackTimer);
     displayPosts(posts);
   } catch (error) {
-    clearTimeout(fallbackTimer);
-
-    if (!postList.children.length) {
-      displayPosts(fallbackPosts);
-    }
+    displayPosts(starterPosts);
   }
 }
 
+displayPosts(starterPosts);
 fetchPosts();
